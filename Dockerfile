@@ -1,22 +1,15 @@
 # Stage 1: Build the Vue.js app
-FROM node:18-alpine AS build
+FROM node:18-alpine 
 
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm install
 
-
 COPY . .
-RUN npm run build
 
+EXPOSE 8080
 
-# Stage 2: Serve the built app with Nginx
-FROM nginx:alpine
+CMD [ "npm", "run", "serve" ]
 
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-# Start Nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
