@@ -28,21 +28,19 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          echo "$SSH_PRIVATE_KEY" > ec2_key.pem
+          echo "${SSH_PRIVATE_KEY}" > ec2_key.pem
           chmod 600 ec2_key.pem
 
-          # SSH into the EC2 instance
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@3.96.187.159 << 'EOF'
-            # Log in to Docker Hub
+
             echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-            # Pull the Docker image
+
             docker pull glynd21/vue-todo-app
 
-            # Stop and remove any existing container
+
             docker stop vue-todo-app || true
             docker rm vue-todo-app || true 
 
-            # Run the new container, mapping host port 8080 to container port 8080
             docker run -d -p 8080:8080 --name vue-todo-app glynd21/vue-todo-app
           EOF
