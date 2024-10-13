@@ -33,14 +33,14 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@3.96.187.159 << 'EOF'
 
-            echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker login -u "${{ secrets.DOCKERHUB_USERNAME }}"  -p "${{ secrets.DOCKERHUB_PASSWORD }}"
 
 
-            docker pull glynd21/vue-todo-app
+          docker pull glynd21/vue-todo-app
 
 
-            docker stop vue-todo-app || true
-            docker rm vue-todo-app || true 
+          docker stop vue-todo-app || true
+          docker rm vue-todo-app || true 
 
-            docker run -d -p 8080:8080 --name vue-todo-app glynd21/vue-todo-app
+          docker run -d -p 8080:8080 --name vue-todo-app glynd21/vue-todo-app
           EOF
