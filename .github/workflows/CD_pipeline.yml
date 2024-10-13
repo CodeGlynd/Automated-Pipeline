@@ -19,4 +19,4 @@ jobs:
           sudo docker stop vue-todo-app || true
           sudo docker rm -f vue-todo-app || true
       - name: start docker container
-        run: sudo docker run -d -p 8080:80 --name vue-todo-app glynd21/vue-todo-app
+        run: sudo docker run -d -p 80:8080 --name vue-todo-app glynd21/vue-todo-app
