@@ -1,4 +1,3 @@
-# Stage 1: Build the Vue.js app
 FROM node:18-alpine 
 
 WORKDIR /app
